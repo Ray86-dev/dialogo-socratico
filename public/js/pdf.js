@@ -633,8 +633,8 @@ function tituloSeccion(ctx, titulo) {
 
 function resumen(ctx) {
   const { doc, e, d } = ctx;
-  asegurar(ctx, 92);
-  ctx.y += 6;
+  asegurar(ctx, 96);
+  ctx.y += 10;
   tituloSeccion(ctx, 'Camino de la sabiduría');
 
   const paso = ANCHO / 4;
@@ -685,7 +685,7 @@ function resumen(ctx) {
   ], { tam: 9.5 });
 
   if (d.reflexion?.trim()) {
-    ctx.y += 5;
+    ctx.y += 9;
     asegurar(ctx, 24);
     tituloSeccion(ctx, `Reflexión final de ${d.nombre}`);
     parrafo(ctx, [{ texto: d.reflexion.trim(), estilo: 'cursiva' }]);
