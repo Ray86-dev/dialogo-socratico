@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es" data-tema="portada">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <title>Diálogo socrático</title>
+  <meta name="description" content="Dialoga con Sócrates y practica el arte de la mayéutica. Filosofía, 4.º ESO, IES San Nicolás.">
+  <meta name="theme-color" content="#15120e">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=VT323&family=Space+Grotesk:wght@400;500;600&family=Monoton&display=swap">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/temas.css">
+</head>
+<body>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="decorado" aria-hidden="true"><div class="decorado__a"></div><div class="decorado__b"></div></div>
+
+  <main id="app">
+    <!-- 1. Bienvenida -->
+    <section id="p-bienvenida" class="pantalla pantalla--portada" aria-labelledby="t-bienvenida">
+      <div class="portada">
+        <p class="portada__kicker">Filosofía · 4.º ESO · IES San Nicolás</p>
+        <h1 id="t-bienvenida" class="portada__titulo">Diálogo<br>socrático</h1>
+        <p class="portada__sub">El arte de la mayéutica</p>
+        <div class="greca" aria-hidden="true"></div>
+        <blockquote class="portada__cita">
+          <p>«Una vida sin examen no merece ser vivida»</p>
+          <cite>Sócrates, en la <i>Apología</i> de Platón (38a)</cite>
+        </blockquote>
+        <form id="f-nombre" class="formulario" novalidate>
+          <label for="i-nombre" class="formulario__label">¿Cómo te llamas?</label>
+          <input id="i-nombre" name="nombre" type="text" autocomplete="given-name" autocapitalize="words"
+                 maxlength="30" placeholder="Tu nombre de pila" required aria-describedby="ayuda-nombre">
+          <p id="ayuda-nombre" class="formulario__ayuda">Solo tu nombre, sin apellidos. Se queda en tu móvil.</p>
+          <p id="error-nombre" class="formulario__error" role="alert" hidden></p>
+          <button type="submit" class="boton boton--primario">Entrar en el diálogo</button>
+        </form>
+        <p class="portada__aviso">Sócrates es un personaje interpretado por inteligencia artificial. No escribas datos personales en el diálogo.</p>
+      </div>
+    </section>
+
+    <!-- 2. Elección de pregunta -->
+    <section id="p-temas" class="pantalla pantalla--portada" aria-labelledby="t-temas" hidden>
+      <header class="temas__cabecera">
+        <p class="portada__kicker">Hola, <span data-nombre></span></p>
+        <h1 id="t-temas" class="temas__titulo">Elige la pregunta que quieres investigar con Sócrates</h1>
+        <button type="button" class="enlace" id="b-cambiar-nombre">¿No eres <span data-nombre></span>? Cambiar nombre</button>
+      </header>
+      <ul id="lista-temas" class="temas" role="list"></ul>
+    </section>
+
+    <!-- 3. Chat -->
+    <section id="p-chat" class="pantalla pantalla--chat" aria-labelledby="t-chat" hidden>
+      <header class="chat__cabecera">
+        <div class="chat__barra">
+          <button type="button" class="icono" id="b-volver" aria-label="Volver a las preguntas">
+            <svg aria-hidden="true"><use href="#i-volver"/></svg>
+          </button>
+          <div class="chat__titulos">
+            <p class="chat__escena" id="chat-escena"></p>
+            <h1 class="chat__pregunta" id="t-chat"></h1>
+          </div>
+          <button type="button" class="icono" id="b-marcas" aria-pressed="false" aria-label="Marcas de lectura" title="Marcas de lectura: mayéutica e ironía">
+            <svg aria-hidden="true"><use href="#i-marcas"/></svg>
+          </button>
+          <button type="button" class="icono icono--puntos" id="b-logros" aria-label="Logros y progreso">
+            <svg aria-hidden="true"><use href="#i-logros"/></svg>
+            <span id="puntos">0</span>
+          </button>
+          <button type="button" class="icono icono--pdf" id="b-guardar" aria-label="Guardar el diálogo en PDF">
+            <svg aria-hidden="true"><use href="#i-pdf"/></svg>
+            <span>PDF</span>
+          </button>
+        </div>
+        <ol class="fases" id="fases" aria-label="Camino de la sabiduría"></ol>
+        <p class="leyenda" id="leyenda" hidden>
+          <span class="mk-may">Azul: mayéutica</span> · <span class="mk-iro">Naranja: ironía</span>
+        </p>
+      </header>
+
+      <div class="chat__mensajes" id="mensajes" role="log" aria-label="Diálogo con Sócrates" aria-live="polite"></div>
+
+      <div class="pistas" id="pistas" hidden>
+        <div class="pistas__cabecera">
+          <p class="pistas__titulo" id="pistas-titulo"></p>
+          <button type="button" class="icono icono--peq" id="b-cerrar-pistas" aria-label="Cerrar pistas">
+            <svg aria-hidden="true"><use href="#i-cerrar"/></svg>
+          </button>
+        </div>
+        <div class="pistas__lista" id="pistas-lista" aria-live="polite"></div>
+      </div>
+
+      <form class="chat__composer" id="f-mensaje">
+        <button type="button" class="pista-boton" id="b-pista">
+          <svg aria-hidden="true"><use href="#i-pista"/></svg>
+          <span id="pista-etiqueta">Pista</span>
+        </button>
+        <label for="i-mensaje" class="sr">Tu respuesta</label>
+        <textarea id="i-mensaje" rows="1" maxlength="600" enterkeyhint="send" placeholder="Responde a Sócrates…"></textarea>
+        <button type="submit" class="enviar" id="b-enviar" aria-label="Enviar">
+          <svg aria-hidden="true"><use href="#i-enviar"/></svg>
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Guardar PDF -->
+  <dialog id="d-guardar" class="dialogo" aria-labelledby="t-guardar">
+    <form method="dialog" id="f-guardar">
+      <h2 id="t-guardar">Guardar tu diálogo</h2>
+      <p>Se descargará un PDF con el diálogo completo para que lo entregues en el aula virtual.</p>
+      <label for="i-reflexion" class="formulario__label">Reflexión final <span class="opcional">(opcional)</span></label>
+      <textarea id="i-reflexion" rows="3" maxlength="600" placeholder="¿Qué has descubierto en este diálogo?"></textarea>
+      <label class="casilla">
+        <input type="checkbox" id="i-incluir-marcas" checked>
+        <span>Incluir marcas de lectura (mayéutica e ironía)</span>
+      </label>
+      <p class="dialogo__estado" id="estado-pdf" role="status"></p>
+      <div class="dialogo__acciones">
+        <button type="button" class="boton" value="cancelar" id="b-cancelar-pdf">Cancelar</button>
+        <button type="button" class="boton" id="b-compartir-pdf" hidden>
+          <svg aria-hidden="true"><use href="#i-compartir"/></svg> Compartir
+        </button>
+        <button type="button" class="boton boton--primario" id="b-descargar-pdf">
+          <svg aria-hidden="true"><use href="#i-pdf"/></svg> Descargar PDF
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Logros y progreso -->
+  <dialog id="d-logros" class="dialogo" aria-labelledby="t-logros">
+    <div>
+      <div class="dialogo__cabecera">
+        <h2 id="t-logros">Tu camino socrático</h2>
+        <button type="button" class="icono icono--peq" data-cerrar aria-label="Cerrar">
+          <svg aria-hidden="true"><use href="#i-cerrar"/></svg>
+        </button>
+      </div>
+      <p class="dialogo__puntos"><strong id="puntos-detalle">0</strong> puntos de sabiduría</p>
+      <p>Cada movimiento socrático que hagas te da puntos. Descúbrelos todos:</p>
+      <ul class="logros" id="lista-logros" role="list"></ul>
+      <div class="dialogo__acciones">
+        <button type="button" class="boton boton--peligro" id="b-reiniciar">
+          <svg aria-hidden="true"><use href="#i-reiniciar"/></svg> Empezar de nuevo
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Confirmación -->
+  <dialog id="d-confirmar" class="dialogo dialogo--peq" aria-labelledby="t-confirmar">
+    <form method="dialog">
+      <h2 id="t-confirmar"></h2>
+      <p id="confirmar-texto"></p>
+      <div class="dialogo__acciones">
+        <button class="boton" value="no">Cancelar</button>
+        <button class="boton boton--primario" value="si" id="b-confirmar-si">Sí</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="avisos" id="avisos" aria-live="polite"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-volver" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+      <symbol id="i-enviar" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-marcas" viewBox="0 0 24 24"><path d="M4 21h7M14.5 4.5l5 5L11 18H6v-5z"/><path d="M12 7l5 5"/></symbol>
+      <symbol id="i-logros" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+      <symbol id="i-pdf" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M13 11v6M10.5 14.5 13 17l2.5-2.5"/></symbol>
+      <symbol id="i-cerrar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-pista" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></symbol>
+      <symbol id="i-reiniciar" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.5-5.8M4 4v4h4"/></symbol>
+      <symbol id="i-compartir" viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5M5 14v6h14v-6"/></symbol>
+      <symbol id="i-opinion" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-6 4z"/></symbol>
+      <symbol id="i-definicion" viewBox="0 0 24 24"><path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1zM12 6v14"/></symbol>
+      <symbol id="i-ejemplo" viewBox="0 0 24 24"><path d="M12 21s-6-5.7-6-11a6 6 0 0 1 12 0c0 5.3-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+      <symbol id="i-contraejemplo" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+      <symbol id="i-pregunta" viewBox="0 0 24 24"><ellipse cx="12" cy="15" rx="2.6" ry="5"/><circle cx="12" cy="7.6" r="1.8"/><path d="M10 12C6 8 2.5 9.5 3.5 12.5S8 14 9.6 13M14 12c4-4 7.5-2.5 6.5.5S16 14 14.4 13M11 6l-1.6-2.4M13 6l1.6-2.4"/></symbol>
+      <symbol id="i-ironia" viewBox="0 0 24 24"><path d="M5 6l2.5 2.5h9L19 6v9a7 6.5 0 0 1-14 0z"/><circle cx="9.2" cy="12" r="2.2"/><circle cx="14.8" cy="12" r="2.2"/><path d="M12 15l-1 2h2z"/></symbol>
+      <symbol id="i-aporia" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.9-.9 1.6v.6M12 17h.01"/></symbol>
+      <symbol id="i-alumbramiento" viewBox="0 0 24 24"><path d="M3 19h18M7 19a5 5 0 0 1 10 0M12 6v3M5.6 10.6l2 2M18.4 10.6l-2 2M2 15h2M20 15h2"/></symbol>
+    </defs>
+  </svg>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

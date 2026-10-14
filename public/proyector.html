@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es" data-tema="portada">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diálogo socrático · Proyector</title>
+  <meta name="description" content="Código QR para proyectar en clase y entrar en el diálogo socrático.">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="/css/temas.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100vh; color: var(--ink); font-family: var(--font-body); font-size: clamp(1rem, 1.4vw, 1.4rem);
+      background:
+        radial-gradient(ellipse 120% 60% at 50% -10%, rgba(212, 166, 74, .2), transparent 60%),
+        radial-gradient(ellipse 120% 50% at 50% 115%, rgba(150, 70, 20, .28), transparent 60%), #15120E;
+      display: grid; place-items: center; padding: 3vh 4vw;
+    }
+    main { width: 100%; max-width: 1400px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5vw; align-items: center; }
+    .kicker { font-family: var(--font-display); letter-spacing: .25em; text-transform: uppercase; color: var(--accent); font-size: .8em; margin: 0 0 .6em; }
+    h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 6rem); line-height: 1; margin: 0; }
+    .sub { font-style: italic; color: var(--ink-soft); font-size: 1.3em; margin: .4em 0 1.2em; }
+    .greca { height: 16px; width: min(100%, 22rem); background: var(--greca) repeat-x left center / auto 100%; margin-bottom: 1.6em; }
+    ol { margin: 0 0 1.6em; padding: 0; list-style: none; counter-reset: paso; display: grid; gap: .55em; }
+    ol li { counter-increment: paso; display: grid; grid-template-columns: 2.2em 1fr; align-items: baseline; }
+    ol li::before { content: counter(paso, upper-roman); font-family: var(--font-display); color: var(--accent); font-weight: 700; }
+    .temas { display: flex; flex-wrap: wrap; gap: .5em; margin: 0; padding: 0; list-style: none; }
+    .temas li { border: 1px solid var(--line-strong); border-radius: 999px; padding: .3em .9em; font-size: .85em; }
+    .qr { background: #FFFDF8; padding: clamp(14px, 1.6vw, 28px); border-radius: 18px; box-shadow: 0 0 0 1px var(--line-strong), 0 30px 80px rgba(0, 0, 0, .45); }
+    .qr svg { display: block; width: min(42vw, 68vh); height: auto; }
+    .url { margin: .8em 0 0; text-align: center; font-family: var(--font-display); font-size: 1.05em; letter-spacing: .04em; color: var(--ink); word-break: break-all; }
+    .estado { display: inline-flex; align-items: center; gap: .5em; margin-top: 1.4em; font-size: .85em; color: var(--ink-soft); }
+    .estado i { width: .7em; height: .7em; border-radius: 50%; background: var(--ink-soft); }
+    .estado.ok i { background: #5BD08A; }
+    .estado.mal i { background: #E5484D; }
+    .estado.mal { color: #FFB4B4; }
+    button { margin-top: 1.4em; margin-left: 1em; font: inherit; font-size: .8em; color: var(--ink); background: transparent; border: 1px solid var(--line-strong); border-radius: 10px; padding: .5em 1em; cursor: pointer; }
+    @media (max-width: 900px) { main { grid-template-columns: 1fr; text-align: center; } .greca, ol { margin-inline: auto; } ol { justify-content: center; text-align: left; } .temas { justify-content: center; } .qr svg { width: min(80vw, 60vh); } .qr { justify-self: center; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <p class="kicker">Filosofía · 4.º ESO · IES San Nicolás</p>
+      <h1>Diálogo socrático</h1>
+      <p class="sub">El arte de la mayéutica</p>
+      <div class="greca" aria-hidden="true"></div>
+      <ol>
+        <li><span>Escanea el código con la cámara del móvil.</span></li>
+        <li><span>Escribe tu nombre de pila.</span></li>
+        <li><span>Elige una pregunta y dialoga con Sócrates.</span></li>
+        <li><span>Al terminar, pulsa <strong>PDF</strong> y entrégalo en el aula virtual.</span></li>
+      </ol>
+      <ul class="temas" aria-label="Preguntas disponibles" id="temas"></ul>
+      <p class="estado" id="estado" role="status"><i></i><span>Comprobando conexión con Sócrates…</span></p>
+      <button type="button" id="pantalla-completa">Pantalla completa</button>
+    </section>
+    <figure style="margin:0">
+      <div class="qr" id="qr" role="img" aria-label="Código QR para abrir la aplicación"></div>
+      <figcaption class="url" id="url"></figcaption>
+    </figure>
+  </main>
+  <script type="module">
+    import qrcode from '/vendor/qrcode.mjs';
+    import { TEMAS } from '/js/topics.js';
+
+    const destino = new URLSearchParams(location.search).get('url') || `${location.origin}/`;
+    document.getElementById('url').textContent = destino.replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+    const qr = qrcode(0, 'M');
+    qr.addData(destino);
+    qr.make();
+    const n = qr.getModuleCount();
+    let d = '';
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (qr.isDark(y, x)) d += `M${x} ${y}h1v1h-1z`;
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${n} ${n}`);
+    svg.setAttribute('shape-rendering', 'crispEdges');
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', '#15120E');
+    svg.append(path);
+    document.getElementById('qr').append(svg);
+
+    document.getElementById('temas').append(...TEMAS.map((t) => Object.assign(document.createElement('li'), { textContent: t.pregunta })));
+
+    const estado = document.getElementById('estado');
+    fetch('/api/health', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((j) => {
+        estado.classList.add(j.configurado ? 'ok' : 'mal');
+        estado.lastElementChild.textContent = j.configurado
+          ? 'Sócrates está listo para dialogar'
+          : 'Falta configurar la clave de DeepSeek en Vercel';
+      })
+      .catch(() => {
+        estado.classList.add('mal');
+        estado.lastElementChild.textContent = 'No se puede conectar con el servidor';
+      });
+
+    document.getElementById('pantalla-completa').addEventListener('click', () => document.documentElement.requestFullscreen?.());
+  </script>
+</body>
+</html>

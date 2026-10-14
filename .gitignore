@@ -3,19 +3,16 @@
 Thumbs.db
 desktop.ini
 
-# Dependencias y builds
+# Dependencias
 node_modules/
-dist/
-build/
-.next/
-__pycache__/
-*.pyc
-.venv/
 
-# Entorno y secretos
+# Entorno y secretos (la clave de DeepSeek NUNCA se sube)
 .env
 .env.*
 !.env.example
+
+# Vercel
+.vercel/
 
 # Editores
 .vscode/

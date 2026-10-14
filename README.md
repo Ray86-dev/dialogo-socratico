@@ -1,7 +1,77 @@
-# Diálogo Socrático
+# Diálogo socrático
 
-Proyecto en desarrollo.
+Aplicación web para móvil con la que el alumnado de Filosofía de 4.º ESO del IES San Nicolás practica el **arte de la mayéutica** dialogando con Sócrates. Está gamificada: el diálogo avanza por las fases del élenchos y se ganan logros por cada movimiento socrático. Al final se descarga un **PDF** maquetado como un diálogo platónico, listo para entregar en el aula virtual.
 
-## Materiales
+## Cómo se usa en clase
 
-- `Platon_Lisis_207d-209c_marcado.pdf`: fragmento del *Lisis* de Platón (207d-209c) con marcas de lectura (mayéutica en azul, ironía en naranja subrayado). Traducción de Patricio de Azcárate (1871), ortografía actualizada.
+1. Proyecta **`/proyector`** (por ejemplo, `https://<tu-dominio>.vercel.app/proyector`). Muestra un QR grande e indica si Sócrates está listo.
+2. El alumnado escanea el QR, escribe **solo su nombre de pila** y elige una de las cinco preguntas.
+3. Dialoga con Sócrates. Si se queda sin ideas, pulsa el botón de pista (Lechuza, Lisis, Glaucón, Oráculo o Chat, según el tema).
+4. Al terminar, pulsa **PDF**, escribe una reflexión final opcional y descarga el archivo para subirlo a la tarea.
+
+| Pregunta | Ambientación | Ayudante de pistas |
+|---|---|---|
+| ¿Qué es la belleza? | Ágora de Atenas: mármol y oro | La lechuza de Atenea |
+| ¿Ser libre es hacer lo que quiero? | Palestra, como en el *Lisis*: cerámica de figuras rojas | Lisis |
+| ¿Harías lo correcto si nadie te viera? | Noche de antorchas, con el anillo de Giges | Glaucón |
+| ¿Puede pensar una inteligencia artificial? | Neo-Atenas 2077: ciberpunk y lluvia de código | El Oráculo |
+| ¿Somos lo que mostramos en redes? | La caverna digital: neón y *vaporwave* | El chat del directo |
+
+### Gamificación
+
+- **Camino de la sabiduría**: 4 fases (Opinión → Examen → Aporía → Alumbramiento), como en el fragmento del *Lisis* leído en clase.
+- **Logros**: Doxa, Definición, Ejemplo, Contraejemplo, Tábano (preguntar a Sócrates), Ojo de lechuza (detectar la ironía), Sé que no sé (reconocer la aporía) y Alumbramiento (reformular la idea).
+- **Marcas de lectura** (botón del lápiz): resaltan en azul las preguntas mayéuticas y en naranja subrayado la ironía, con la misma convención que el texto del *Lisis*.
+
+### El PDF
+
+Se titula con el nombre del estudiante, como los diálogos de Platón: *«Lucía, o sobre la belleza»*. Incluye:
+- Portada ilustrada según el tema.
+- El diálogo dividido por fases y con numeración al margen al estilo Stephanus.
+- Las marcas de lectura.
+- El resumen de logros, puntos y pistas usadas.
+- La reflexión final.
+
+## Puesta en marcha
+
+La app se despliega en **Vercel** desde este repositorio: cada `git push` a `main` la actualiza sola.
+
+1. En Vercel, abre el proyecto → **Settings → Environment Variables** y añade `DEEPSEEK_API_KEY` con tu clave de [platform.deepseek.com](https://platform.deepseek.com).
+2. Vuelve a desplegar (**Deployments → Redeploy**) para que la variable surta efecto.
+3. Abre `/proyector`: el indicador debe decir «Sócrates está listo para dialogar».
+
+Variables opcionales: `DEEPSEEK_MODEL` (por defecto `deepseek-flash`) y `DEEPSEEK_BASE_URL`.
+
+### Probar en local
+
+```bash
+npm run dev:mock   # respuestas simuladas, sin gastar saldo
+npm run dev        # usa la clave de .env.local (copia .env.example)
+```
+
+Se abre en `http://localhost:3000`. No hace falta instalar dependencias.
+
+## Cómo está hecho
+
+- **Interfaz** (`public/`): HTML, CSS y JavaScript sin framework. Es una web para móvil y no requiere instalación. El progreso se guarda en el propio móvil (`localStorage`), así que recargar no borra el diálogo.
+- **Servidor** (`api/chat.js` y `lib/`): una función de Vercel que guarda la clave de DeepSeek y añade las instrucciones de Sócrates. El móvil nunca ve la clave ni las instrucciones.
+- **Instrucciones del personaje** (`lib/prompts.js`): método mayéutico, ironía amable, fases, estilo, marcas y límites. Sócrates no sale del papel, no dice que es una IA ni qué modelo es, no acepta temas ajenos y deriva al profesorado y al 024 o ANAR ante cualquier señal de riesgo. Además, el servidor filtra autodelaciones («soy una IA», nombres de modelos) y regenera la respuesta si aparecen.
+- **PDF** (`public/js/pdf.js`): se genera en el móvil con jsPDF.
+- **Base teórica**: [`docs/mayeutica.md`](docs/mayeutica.md).
+
+### Privacidad
+
+- El **nombre no sale del móvil**: Sócrates escribe `{nombre}` y la app lo sustituye en pantalla.
+- Los mensajes sí se envían a DeepSeek para generar las respuestas. Conviene recordar al alumnado que no escriba datos personales. La pantalla de inicio también lo avisa e indica que Sócrates es un personaje interpretado por IA.
+
+### Coste orientativo
+
+Con `deepseek-flash`, un diálogo completo de unos 30 turnos cuesta del orden de céntimos. Una clase entera suele quedar por debajo de un euro.
+
+### Cambiar o añadir preguntas
+
+Cada pregunta tiene dos partes:
+- `public/js/topics.js`: lo que ve el alumnado (título, saludo inicial, ambientación).
+- `lib/prompts.js`: lo que guía a Sócrates (escena, voz, líneas de exploración).
+
+Para un tema nuevo hay que añadirlo en ambos ficheros con el mismo `id`.

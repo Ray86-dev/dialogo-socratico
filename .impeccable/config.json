@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "public/proyector.html"
+        ],
+        "createdAt": "2026-10-14T19:14:30.753Z",
+        "reason": "Claude: false positive, background is #15120E under transparent gradients; measured in Chrome 8.1-15.5:1 for every text node"
+      }
+    ]
+  }
+}
