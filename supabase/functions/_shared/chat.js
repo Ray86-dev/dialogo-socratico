@@ -62,7 +62,7 @@ async function llamarDeepSeek(env, messages, maxTokens) {
       messages,
       thinking: { type: 'disabled' }, // sin modo razonamiento: respuestas rápidas
       response_format: { type: 'json_object' },
-      temperature: 1.1,
+      temperature: 1.0,
       max_tokens: maxTokens,
     }),
     signal: AbortSignal.timeout(45_000),
