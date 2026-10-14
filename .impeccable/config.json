@@ -11,6 +11,69 @@
         ],
         "createdAt": "2026-10-14T19:14:30.753Z",
         "reason": "Claude: false positive, background is #15120E under transparent gradients; measured in Chrome 8.1-15.5:1 for every text node"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "public/index.html"
+        ],
+        "createdAt": "2026-10-14T19:32:53.487Z",
+        "reason": "Claude: typing indicator only shown while a request to the server is in flight (genuinely live state); user asked for an animated chat"
+      },
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "public/css/temas.css"
+        ],
+        "createdAt": "2026-10-14T19:32:53.593Z",
+        "reason": "Claude: CRT scanlines only in the cyber theme; the user asked for a hacker/Matrix/cyberpunk look for the AI topic"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "public/css/temas.css"
+        ],
+        "createdAt": "2026-10-14T19:32:53.687Z",
+        "reason": "Claude: synthwave perspective floor only in the neon 'caverna digital' theme, the defining motif of that requested themed ambience"
+      },
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "public/index.html"
+        ],
+        "createdAt": "2026-10-14T19:33:12.953Z",
+        "reason": "Claude: comes from temas.css cyber CRT scanlines (user asked for hacker/Matrix look)"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "public/index.html"
+        ],
+        "createdAt": "2026-10-14T19:33:13.074Z",
+        "reason": "Claude: comes from temas.css neon synthwave floor (themed ambience for the redes topic)"
+      },
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "public/proyector.html"
+        ],
+        "createdAt": "2026-10-14T19:33:13.199Z",
+        "reason": "Claude: comes from temas.css cyber CRT scanlines (user asked for hacker/Matrix look)"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "public/proyector.html"
+        ],
+        "createdAt": "2026-10-14T19:33:13.324Z",
+        "reason": "Claude: comes from temas.css neon synthwave floor (themed ambience for the redes topic)"
       }
     ]
   }

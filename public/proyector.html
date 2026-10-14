@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Diálogo socrático · Proyector</title>
   <meta name="description" content="Código QR para proyectar en clase y entrar en el diálogo socrático.">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
-  <link rel="stylesheet" href="/css/temas.css">
+  <link rel="stylesheet" href="css/temas.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; min-height: 100%; }
@@ -21,7 +21,7 @@
       display: grid; place-items: center; padding: 3vh 4vw;
     }
     main { width: 100%; max-width: 1400px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5vw; align-items: center; }
-    .kicker { font-family: var(--font-display); letter-spacing: .25em; text-transform: uppercase; color: var(--accent); font-size: .8em; margin: 0 0 .6em; }
+    .curso { margin: 1.4em 0 0; color: var(--accent); font-size: .8em; }
     h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 6rem); line-height: 1; margin: 0; }
     .sub { font-style: italic; color: var(--ink-soft); font-size: 1.3em; margin: .4em 0 1.2em; }
     .greca { height: 16px; width: min(100%, 22rem); background: var(--greca) repeat-x left center / auto 100%; margin-bottom: 1.6em; }
@@ -29,11 +29,11 @@
     ol li { counter-increment: paso; display: grid; grid-template-columns: 2.2em 1fr; align-items: baseline; }
     ol li::before { content: counter(paso, upper-roman); font-family: var(--font-display); color: var(--accent); font-weight: 700; }
     .temas { display: flex; flex-wrap: wrap; gap: .5em; margin: 0; padding: 0; list-style: none; }
-    .temas li { border: 1px solid var(--line-strong); border-radius: 999px; padding: .3em .9em; font-size: .85em; }
+    .temas li { border: 1px solid var(--line-strong); border-radius: 999px; padding: .3em .9em; font-size: .8em; }
     .qr { background: #FFFDF8; padding: clamp(14px, 1.6vw, 28px); border-radius: 18px; box-shadow: 0 0 0 1px var(--line-strong), 0 30px 80px rgba(0, 0, 0, .45); }
     .qr svg { display: block; width: min(42vw, 68vh); height: auto; }
     .url { margin: .8em 0 0; text-align: center; font-family: var(--font-display); font-size: 1.05em; letter-spacing: .04em; color: var(--ink); word-break: break-all; }
-    .estado { display: inline-flex; align-items: center; gap: .5em; margin-top: 1.4em; font-size: .85em; color: var(--ink-soft); }
+    .estado { display: inline-flex; align-items: center; gap: .5em; margin-top: 1em; font-size: .8em; color: var(--ink-soft); }
     .estado i { width: .7em; height: .7em; border-radius: 50%; background: var(--ink-soft); }
     .estado.ok i { background: #5BD08A; }
     .estado.mal i { background: #E5484D; }
@@ -45,7 +45,6 @@
 <body>
   <main>
     <section>
-      <p class="kicker">Filosofía · 4.º ESO · IES San Nicolás</p>
       <h1>Diálogo socrático</h1>
       <p class="sub">El arte de la mayéutica</p>
       <div class="greca" aria-hidden="true"></div>
@@ -56,6 +55,7 @@
         <li><span>Al terminar, pulsa <strong>PDF</strong> y entrégalo en el aula virtual.</span></li>
       </ol>
       <ul class="temas" aria-label="Preguntas disponibles" id="temas"></ul>
+      <p class="curso">Filosofía · 4.º ESO · IES San Nicolás</p>
       <p class="estado" id="estado" role="status"><i></i><span>Comprobando conexión con Sócrates…</span></p>
       <button type="button" id="pantalla-completa">Pantalla completa</button>
     </section>
@@ -65,10 +65,12 @@
     </figure>
   </main>
   <script type="module">
-    import qrcode from '/vendor/qrcode.mjs';
-    import { TEMAS } from '/js/topics.js';
+    import qrcode from './vendor/qrcode.mjs';
+    import { TEMAS } from './js/topics.js';
+    import { API, CABECERAS } from './js/config.js';
 
-    const destino = new URLSearchParams(location.search).get('url') || `${location.origin}/`;
+    // La app está en la misma carpeta que esta página (en GitHub Pages, /dialogo-socratico/).
+    const destino = new URLSearchParams(location.search).get('url') || new URL('./', location.href).href;
     document.getElementById('url').textContent = destino.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
     const qr = qrcode(0, 'M');
@@ -90,13 +92,13 @@
     document.getElementById('temas').append(...TEMAS.map((t) => Object.assign(document.createElement('li'), { textContent: t.pregunta })));
 
     const estado = document.getElementById('estado');
-    fetch('/api/health', { cache: 'no-store' })
+    fetch(API, { cache: 'no-store', headers: CABECERAS })
       .then((r) => r.json())
       .then((j) => {
         estado.classList.add(j.configurado ? 'ok' : 'mal');
         estado.lastElementChild.textContent = j.configurado
           ? 'Sócrates está listo para dialogar'
-          : 'Falta configurar la clave de DeepSeek en Vercel';
+          : 'Falta configurar la clave de DeepSeek en Supabase';
       })
       .catch(() => {
         estado.classList.add('mal');

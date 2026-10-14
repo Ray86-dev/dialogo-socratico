@@ -4,7 +4,7 @@ Aplicación web para móvil con la que el alumnado de Filosofía de 4.º ESO del
 
 ## Cómo se usa en clase
 
-1. Proyecta **`/proyector`** (por ejemplo, `https://<tu-dominio>.vercel.app/proyector`). Muestra un QR grande e indica si Sócrates está listo.
+1. Proyecta **<https://ray86-dev.github.io/dialogo-socratico/proyector>**. Muestra un QR grande e indica si Sócrates está listo.
 2. El alumnado escanea el QR, escribe **solo su nombre de pila** y elige una de las cinco preguntas.
 3. Dialoga con Sócrates. Si se queda sin ideas, pulsa el botón de pista (Lechuza, Lisis, Glaucón, Oráculo o Chat, según el tema).
 4. Al terminar, pulsa **PDF**, escribe una reflexión final opcional y descarga el archivo para subirlo a la tarea.
@@ -34,13 +34,19 @@ Se titula con el nombre del estudiante, como los diálogos de Platón: *«Lucía
 
 ## Puesta en marcha
 
-La app se despliega en **Vercel** desde este repositorio: cada `git push` a `main` la actualiza sola.
+- **Web**: <https://ray86-dev.github.io/dialogo-socratico/>. Se publica en **GitHub Pages** automáticamente con cada `git push` a `main` (`.github/workflows/pages.yml`).
+- **Proyector**: <https://ray86-dev.github.io/dialogo-socratico/proyector>.
+- **Servidor de Sócrates**: una función de **Supabase** (`supabase/functions/socrates`, proyecto `dialogo-socratico`) que guarda la clave de DeepSeek y añade las instrucciones del personaje.
 
-1. En Vercel, abre el proyecto → **Settings → Environment Variables** y añade `DEEPSEEK_API_KEY` con tu clave de [platform.deepseek.com](https://platform.deepseek.com).
-2. Vuelve a desplegar (**Deployments → Redeploy**) para que la variable surta efecto.
+### Clave de DeepSeek (una sola vez)
+
+1. Abre [los secretos de las funciones del proyecto en Supabase](https://supabase.com/dashboard/project/klxpfmkpwoszzrnhyfsn/functions/secrets).
+2. Añade `DEEPSEEK_API_KEY` con tu clave de [platform.deepseek.com](https://platform.deepseek.com). Se aplica al momento, sin volver a desplegar.
 3. Abre `/proyector`: el indicador debe decir «Sócrates está listo para dialogar».
 
-Variables opcionales: `DEEPSEEK_MODEL` (por defecto `deepseek-flash`) y `DEEPSEEK_BASE_URL`.
+Opcionales: `DEEPSEEK_MODEL` (por defecto `deepseek-flash`) y `DEEPSEEK_BASE_URL`.
+
+> En el plan gratuito, Supabase **pausa el proyecto tras 7 días sin uso**. Si la app deja de responder después de unas vacaciones, reactívalo desde el panel de Supabase.
 
 ### Probar en local
 
@@ -51,27 +57,33 @@ npm run dev        # usa la clave de .env.local (copia .env.example)
 
 Se abre en `http://localhost:3000`. No hace falta instalar dependencias.
 
+### Volver a desplegar la función tras cambiar `supabase/functions/`
+
+```bash
+npx supabase functions deploy socrates --project-ref klxpfmkpwoszzrnhyfsn
+```
+
 ## Cómo está hecho
 
-- **Interfaz** (`public/`): HTML, CSS y JavaScript sin framework. Es una web para móvil y no requiere instalación. El progreso se guarda en el propio móvil (`localStorage`), así que recargar no borra el diálogo.
-- **Servidor** (`api/chat.js` y `lib/`): una función de Vercel que guarda la clave de DeepSeek y añade las instrucciones de Sócrates. El móvil nunca ve la clave ni las instrucciones.
-- **Instrucciones del personaje** (`lib/prompts.js`): método mayéutico, ironía amable, fases, estilo, marcas y límites. Sócrates no sale del papel, no dice que es una IA ni qué modelo es, no acepta temas ajenos y deriva al profesorado y al 024 o ANAR ante cualquier señal de riesgo. Además, el servidor filtra autodelaciones («soy una IA», nombres de modelos) y regenera la respuesta si aparecen.
+- **Interfaz** (`public/`): HTML, CSS y JavaScript sin framework. Es una web para móvil, sin instalación. El progreso se guarda en el propio móvil (`localStorage`), así que recargar no borra el diálogo. La dirección del servidor está en `public/js/config.js`.
+- **Servidor** (`supabase/functions/`): la función solo acepta peticiones desde la web publicada y desde el servidor local de pruebas. La clave de DeepSeek y las instrucciones de Sócrates nunca llegan al móvil. La lógica (`_shared/`) es la misma que usa `dev-server.js` en local.
+- **Instrucciones del personaje** (`supabase/functions/_shared/prompts.js`): método mayéutico, ironía amable, fases, estilo, marcas y límites. Sócrates no sale del papel, no dice que es una IA ni qué modelo es, no acepta temas ajenos y deriva al profesorado y al 024 o ANAR ante cualquier señal de riesgo. Además, el servidor filtra autodelaciones («soy una IA», nombres de modelos) y regenera la respuesta si aparecen.
 - **PDF** (`public/js/pdf.js`): se genera en el móvil con jsPDF.
 - **Base teórica**: [`docs/mayeutica.md`](docs/mayeutica.md).
 
 ### Privacidad
 
 - El **nombre no sale del móvil**: Sócrates escribe `{nombre}` y la app lo sustituye en pantalla.
-- Los mensajes sí se envían a DeepSeek para generar las respuestas. Conviene recordar al alumnado que no escriba datos personales. La pantalla de inicio también lo avisa e indica que Sócrates es un personaje interpretado por IA.
+- Los mensajes sí pasan por Supabase (servidores en Irlanda) hacia DeepSeek para generar las respuestas. Conviene recordar al alumnado que no escriba datos personales. La pantalla de inicio también lo avisa e indica que Sócrates es un personaje interpretado por IA.
 
 ### Coste orientativo
 
-Con `deepseek-flash`, un diálogo completo de unos 30 turnos cuesta del orden de céntimos. Una clase entera suele quedar por debajo de un euro.
+Con `deepseek-flash`, un diálogo completo de unos 30 turnos cuesta del orden de céntimos. Una clase entera suele quedar por debajo de un euro. Supabase y GitHub Pages son gratuitos para este uso.
 
 ### Cambiar o añadir preguntas
 
 Cada pregunta tiene dos partes:
 - `public/js/topics.js`: lo que ve el alumnado (título, saludo inicial, ambientación).
-- `lib/prompts.js`: lo que guía a Sócrates (escena, voz, líneas de exploración).
+- `supabase/functions/_shared/prompts.js`: lo que guía a Sócrates (escena, voz, líneas de exploración).
 
-Para un tema nuevo hay que añadirlo en ambos ficheros con el mismo `id`.
+Para un tema nuevo hay que añadirlo en ambos ficheros con el mismo `id` y volver a desplegar la función.

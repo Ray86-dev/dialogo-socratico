@@ -1,5 +1,5 @@
-// Lógica del diálogo, independiente de la plataforma: la usan api/chat.js (Vercel)
-// y dev-server.js (pruebas en local).
+// Lógica del diálogo, independiente de la plataforma: la usan la función de Supabase
+// (supabase/functions/socrates) y dev-server.js (pruebas en local).
 import { LOGROS, TEMAS, promptDialogo, promptPistas, reconduccion } from './prompts.js';
 import { respuestaSimulada, pistasSimuladas } from './mock.js';
 

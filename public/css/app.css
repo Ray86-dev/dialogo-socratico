@@ -41,10 +41,6 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .portada > :nth-child(5) { animation-delay: .3s; }
 .portada > :nth-child(6) { animation-delay: .38s; }
 .portada > :nth-child(7) { animation-delay: .44s; }
-.portada__kicker {
-  font-family: var(--font-display); font-size: .75rem; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--accent); margin: 0 0 1rem;
-}
 .portada__titulo {
   font-family: var(--font-display); font-weight: 700; font-size: clamp(2.75rem, 13vw, 4.25rem);
   line-height: 1; letter-spacing: .02em; margin: 0; color: var(--ink);
@@ -52,19 +48,20 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .portada__sub { font-style: italic; font-size: 1.25rem; color: var(--ink-soft); margin: .75rem 0 1.25rem; }
 .greca { height: 14px; margin: 0 auto 1.5rem; width: min(100%, 18rem); background: var(--greca) repeat-x center / auto 100%; opacity: .9; }
 .portada__cita { margin: 0 0 2rem; }
-.portada__cita p { margin: 0; font-size: 1.15rem; font-style: italic; }
-.portada__cita cite { display: block; margin-top: .35rem; font-size: .85rem; font-style: normal; color: var(--ink-soft); }
-.portada__aviso { margin: 1.75rem auto 0; max-width: 22rem; font-size: .8125rem; line-height: 1.45; color: var(--ink-soft); }
+.portada__cita p { margin: 0; font-size: 1.125rem; font-style: italic; }
+.portada__cita cite { display: block; margin-top: .35rem; font-size: .875rem; font-style: normal; color: var(--ink-soft); }
+.portada__aviso { margin: 1.75rem auto 0; max-width: 22rem; font-size: .875rem; line-height: 1.45; color: var(--ink-soft); }
+.portada__curso { margin: 1rem 0 0; font-size: .875rem; color: var(--accent); }
 
 .formulario { display: grid; gap: .5rem; text-align: left; }
-.formulario__label { font-family: var(--font-display); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.formulario__label { font-family: var(--font-display); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
 .formulario input, .dialogo textarea {
   width: 100%; font-size: max(16px, 1rem); padding: .8rem 1rem; border-radius: var(--r-sm);
   border: 1px solid var(--line-strong); background: var(--input-bg); color: var(--ink);
 }
 .formulario input { font-size: 1.25rem; }
 .formulario input::placeholder, textarea::placeholder { color: var(--ink-soft); opacity: .8; }
-.formulario__ayuda { margin: 0; font-size: .8125rem; color: var(--ink-soft); }
+.formulario__ayuda { margin: 0; font-size: .875rem; color: var(--ink-soft); }
 .formulario__error { margin: 0; font-size: .875rem; color: var(--error); }
 .formulario .boton { margin-top: .75rem; }
 
@@ -83,7 +80,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 
 /* ---------- Elección de pregunta ---------- */
 .temas__cabecera { max-width: 34rem; margin: 0 auto 1.25rem; text-align: center; }
-.temas__cabecera .portada__kicker { margin-bottom: .5rem; }
+.temas__saludo { margin: 0 0 .25rem; font-size: 1.25rem; font-style: italic; color: var(--accent); }
 .temas__titulo { font-family: var(--font-display); font-size: clamp(1.35rem, 5.5vw, 1.75rem); line-height: 1.2; margin: 0 0 .5rem; font-weight: 500; }
 .temas { list-style: none; margin: 0 auto; padding: 0; max-width: 34rem; display: grid; gap: .875rem; }
 .temas > li { animation: subir .6s cubic-bezier(.2, .7, .2, 1) both; }
@@ -101,10 +98,10 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .tarjeta:hover { transform: translateY(-2px); }
 .tarjeta:active { transform: scale(.985); }
 .tarjeta > * { position: relative; z-index: 1; }
-.tarjeta__etiqueta { font-family: var(--t-font-display); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; color: var(--t-accent); }
+.tarjeta__etiqueta { font-family: var(--t-font-display); font-size: .6875rem; letter-spacing: .16em; text-transform: uppercase; color: var(--t-accent); }
 .tarjeta__pregunta { font-family: var(--t-font-display); font-size: 1.3rem; line-height: 1.2; font-weight: 600; }
-.tarjeta__escena { font-size: .9rem; color: var(--t-soft); }
-.tarjeta__gancho { font-size: .95rem; font-style: var(--t-cursiva, italic); color: var(--t-ink); opacity: .9; margin-top: .25rem; }
+.tarjeta__escena { font-size: .875rem; color: var(--t-soft); }
+.tarjeta__gancho { font-size: 1rem; font-style: var(--t-cursiva, italic); color: var(--t-ink); opacity: .9; margin-top: .25rem; }
 .tarjeta__progreso {
   justify-self: start; margin-top: .5rem; font-size: .75rem; font-weight: 600; letter-spacing: .04em;
   padding: .2rem .6rem; border-radius: 999px; background: var(--t-accent); color: var(--t-accent-ink);
@@ -134,7 +131,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 }
 .icono svg { width: 22px; height: 22px; }
 .icono[aria-pressed="true"] { background: var(--chip-bg); color: var(--accent); }
-.icono--puntos, .icono--pdf { padding: 0 .5rem; font-size: .8125rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.icono--puntos, .icono--pdf { padding: 0 .5rem; font-size: .875rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 .icono--puntos svg { color: var(--accent); width: 18px; height: 18px; }
 .icono--pdf { border: 1px solid var(--line-strong); height: 36px; margin-left: .125rem; }
 .icono--pdf svg { width: 18px; height: 18px; }
@@ -179,7 +176,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .chip-logro {
   display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .55rem .15rem .35rem; border-radius: 999px;
   background: var(--chip-bg); color: var(--chip-ink); font-size: .75rem; font-weight: 600;
-  animation: pop .5s cubic-bezier(.3, 1.6, .5, 1) both;
+  animation: pop .45s cubic-bezier(.25, 1, .5, 1) both;
 }
 .chip-logro svg { width: 15px; height: 15px; }
 
@@ -195,7 +192,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 }
 .hito::before, .hito::after { content: ""; height: 1px; background: var(--line-strong); }
 .hito__texto { text-align: center; font-family: var(--font-deco); font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; }
-.hito__lema { display: block; margin-top: .2rem; font-family: var(--font-body); font-size: .8125rem; letter-spacing: 0; text-transform: none; color: var(--ink-soft); max-width: 16rem; }
+.hito__lema { display: block; margin-top: .2rem; font-family: var(--font-body); font-size: .875rem; letter-spacing: 0; text-transform: none; color: var(--ink-soft); max-width: 16rem; }
 .hito.nuevo .hito__texto { animation: latido 1.2s ease 2; }
 
 .escribiendo { align-self: flex-start; display: flex; align-items: center; gap: .6rem; color: var(--ink-soft); font-size: .875rem; font-style: italic; animation: entrar .3s ease both; }
@@ -210,7 +207,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
   background: var(--surface); font-size: .875rem; text-align: center;
 }
 .aviso-error .boton { min-height: 36px; padding: .3rem .8rem; }
-.fin-dialogo { align-self: center; text-align: center; font-size: .9rem; color: var(--ink-soft); max-width: 22rem; }
+.fin-dialogo { align-self: center; text-align: center; font-size: .875rem; color: var(--ink-soft); max-width: 22rem; }
 
 /* Pistas */
 .pistas {
@@ -218,7 +215,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); padding: .5rem .75rem .25rem; animation: subir .3s ease both;
 }
 .pistas__cabecera { display: flex; align-items: center; justify-content: space-between; }
-.pistas__titulo { margin: 0; font-size: .8125rem; font-style: italic; color: var(--accent); }
+.pistas__titulo { margin: 0; font-size: .875rem; font-style: italic; color: var(--accent); }
 .pistas__lista { display: grid; gap: .4rem; padding: .25rem 0 .5rem; }
 .pista {
   display: grid; gap: .1rem; text-align: left; padding: .55rem .75rem; border-radius: var(--r-sm);
@@ -227,7 +224,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .pista:nth-child(2) { animation-delay: .07s; }
 .pista:nth-child(3) { animation-delay: .14s; }
 .pista__tipo { font-size: .6875rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
-.pista__texto { font-size: .95rem; }
+.pista__texto { font-size: 1rem; }
 .pista--cargando { height: 3.2rem; background: linear-gradient(90deg, var(--chip-bg), var(--line), var(--chip-bg)); background-size: 200% 100%; animation: brillo-carga 1.2s linear infinite; border-color: transparent; }
 
 /* Composer */
@@ -244,7 +241,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .pista-boton {
   height: 44px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
   padding: 0 .5rem; min-width: 52px; border-radius: var(--r-sm); border: 1px solid var(--line-strong);
-  background: transparent; color: var(--accent); font-size: .625rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  background: transparent; color: var(--accent); font-size: .6875rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
 }
 .pista-boton svg { width: 20px; height: 20px; }
 .enviar {
@@ -264,26 +261,26 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .dialogo::backdrop { background: rgba(0, 0, 0, .55); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
 .dialogo[open] { animation: subir .3s ease both; }
 .dialogo h2 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 .5rem; font-weight: 600; }
-.dialogo p { margin: 0 0 .9rem; font-size: .95rem; }
+.dialogo p { margin: 0 0 .9rem; font-size: 1rem; }
 .dialogo--peq { width: min(22rem, calc(100% - 2rem)); }
 .dialogo__cabecera { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; }
 .dialogo__acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; margin-top: 1rem; }
 .dialogo__acciones .boton { flex: 1 1 auto; }
 .dialogo__estado { min-height: 1.4em; font-size: .875rem; color: var(--accent); }
-.dialogo__puntos { font-size: 1.05rem !important; }
+.dialogo__puntos { font-size: 1rem !important; }
 .dialogo__puntos strong { font-family: var(--font-display); font-size: 1.6rem; color: var(--accent); margin-right: .2rem; }
 .dialogo textarea { margin: .4rem 0 .8rem; font-family: var(--font-body); resize: vertical; }
 .opcional { text-transform: none; letter-spacing: 0; color: var(--ink-soft); }
-.casilla { display: flex; gap: .6rem; align-items: center; font-size: .9rem; margin-bottom: .5rem; }
+.casilla { display: flex; gap: .6rem; align-items: center; font-size: .875rem; margin-bottom: .5rem; }
 .casilla input { width: 20px; height: 20px; accent-color: var(--accent); }
 
 .logros { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
 .logro { display: grid; grid-template-columns: 2.25rem 1fr auto; gap: .65rem; align-items: center; padding: .5rem .6rem; border-radius: var(--r-sm); border: 1px solid var(--line); }
 .logro__icono { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; border: 1px dashed var(--line-strong); color: var(--ink-soft); }
 .logro__icono svg { width: 20px; height: 20px; }
-.logro__nombre { display: block; font-weight: 600; font-size: .95rem; }
-.logro__desc { display: block; font-size: .8125rem; color: var(--ink-soft); line-height: 1.3; }
-.logro__veces { font-size: .8125rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.logro__nombre { display: block; font-weight: 600; font-size: 1rem; }
+.logro__desc { display: block; font-size: .875rem; color: var(--ink-soft); line-height: 1.3; }
+.logro__veces { font-size: .875rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
 .logro.ganado { border-color: var(--line-strong); background: var(--chip-bg); }
 .logro.ganado .logro__icono { border-style: solid; border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
 
@@ -299,7 +296,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 }
 .aviso svg { width: 24px; height: 24px; color: var(--accent); }
 .aviso__titulo { display: block; font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
-.aviso__nombre { display: block; font-weight: 600; font-size: .95rem; }
+.aviso__nombre { display: block; font-weight: 600; font-size: 1rem; }
 .aviso__puntos { font-weight: 700; color: var(--accent); }
 
 /* ---------- Animaciones ---------- */

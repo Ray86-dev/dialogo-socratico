@@ -1,3 +1,4 @@
+import { API, CABECERAS } from './config.js';
 import { FASES, LIMITE_TURNOS, LOGROS, PISTAS_RESERVA, PUNTOS, TEMAS, temaPorId } from './topics.js';
 import { segmentos } from './marks.js';
 import { cargar, guardar } from './store.js';
@@ -302,9 +303,9 @@ $('#f-mensaje').addEventListener('submit', (ev) => {
 async function pedir(temaId, modo, mensajes) {
   let res;
   try {
-    res = await fetch('/api/chat', {
+    res = await fetch(API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...CABECERAS },
       body: JSON.stringify({ modo, tema: temaId, mensajes: mensajes.map(({ rol, texto }) => ({ rol, texto })) }),
       signal: AbortSignal.timeout ? AbortSignal.timeout(60_000) : undefined,
     });
@@ -538,7 +539,7 @@ let jsPDFCargado = null;
 function cargarJsPDF() {
   jsPDFCargado ??= new Promise((resolver, rechazar) => {
     if (window.jspdf) return resolver(window.jspdf.jsPDF);
-    const s = el('script', { src: '/vendor/jspdf.umd.min.js' });
+    const s = el('script', { src: new URL('../vendor/jspdf.umd.min.js', import.meta.url).href });
     s.onload = () => resolver(window.jspdf.jsPDF);
     s.onerror = () => {
       jsPDFCargado = null;

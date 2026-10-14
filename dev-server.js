@@ -1,4 +1,4 @@
-// Servidor local para probar la aplicación sin Vercel.
+// Servidor local para probar la aplicación (hace de GitHub Pages + función de Supabase).
 //   npm run dev        → usa DEEPSEEK_API_KEY de .env.local
 //   npm run dev:mock   → respuestas simuladas, sin gastar saldo
 import { createServer } from 'node:http';
@@ -6,7 +6,7 @@ import { readFile } from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ErrorCliente, estaConfigurado, procesar } from './lib/chat.js';
+import { ErrorCliente, estaConfigurado, procesar } from './supabase/functions/_shared/chat.js';
 
 const raiz = fileURLToPath(new URL('./public', import.meta.url));
 const PUERTO = Number(process.env.PORT) || 3000;
@@ -50,17 +50,15 @@ async function leerCuerpo(req) {
 createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   try {
-    if (url.pathname === '/api/health') {
-      return enviar(res, 200, { ok: true, configurado: estaConfigurado(env) });
-    }
-    if (url.pathname === '/api/chat') {
+    if (url.pathname === '/api/socrates') {
+      if (req.method === 'GET') return enviar(res, 200, { ok: true, configurado: estaConfigurado(env) });
       if (req.method !== 'POST') return enviar(res, 405, { error: 'Método no permitido.' });
       const body = JSON.parse(await leerCuerpo(req));
       return enviar(res, 200, await procesar(body, env));
     }
     let ruta = normalize(decodeURIComponent(url.pathname)).replace(/^([\\/])+/, '');
     if (ruta === '' || ruta.endsWith('\\') || ruta.endsWith('/')) ruta += 'index.html';
-    if (!extname(ruta)) ruta += '.html'; // cleanUrls, como en Vercel
+    if (!extname(ruta)) ruta += '.html'; // /proyector → proyector.html, como en GitHub Pages
     const fichero = join(raiz, ruta);
     if (!fichero.startsWith(raiz)) return enviar(res, 403, 'Prohibido', 'text/plain');
     const contenido = await readFile(fichero);

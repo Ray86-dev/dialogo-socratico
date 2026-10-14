@@ -10,7 +10,7 @@
 
   --r-sm: 10px; --r-card: 14px; --r-bubble: 16px; --r-input: 22px; --r-enviar: 50%;
   --body-size: 1.125rem;
-  --titulo-chat: 1.05rem;
+  --titulo-chat: 1rem;
   --error: #E5484D;
   --fx-opacidad: .7;
 
@@ -53,7 +53,6 @@
 }
 [data-tema="agora"] body {
   background:
-    repeating-linear-gradient(118deg, transparent 0 46px, rgba(120, 100, 70, .035) 46px 47px, transparent 47px 91px),
     radial-gradient(ellipse 90% 60% at 30% 0%, rgba(255, 255, 255, .7), transparent 70%),
     linear-gradient(165deg, #F4EEE3 0%, #E7DCC8 100%);
 }
@@ -136,9 +135,7 @@
 }
 [data-tema="cyber"] .decorado__b { background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0, 0, 0, .65) 100%); }
 [data-tema="cyber"] .chat__pregunta { letter-spacing: .02em; font-weight: 400; animation: glitch 6s steps(1) infinite; }
-[data-tema="cyber"] .chat__escena, [data-tema="cyber"] .msg__quien { font-size: .95rem; letter-spacing: .08em; }
-[data-tema="cyber"] .msg--socrates .msg__texto { border-left-width: 3px; }
-[data-tema="cyber"] .msg--alumno .msg__texto { border-right-width: 3px; }
+[data-tema="cyber"] .chat__escena, [data-tema="cyber"] .msg__quien { font-size: 1rem; letter-spacing: .08em; }
 [data-tema="cyber"] .msg__quien::before { content: "> "; }
 @keyframes glitch {
   0%, 92%, 100% { text-shadow: none; transform: none; }
@@ -219,8 +216,8 @@
   border-radius: 4px; font-size: .875rem;
 }
 .tarjeta--cyber .tarjeta__pregunta { font-size: 1.65rem; font-weight: 400; line-height: 1.05; }
-.tarjeta--cyber .tarjeta__etiqueta { font-size: .95rem; letter-spacing: .1em; }
-.tarjeta--cyber .tarjeta__gancho { font-size: .85rem; }
+.tarjeta--cyber .tarjeta__etiqueta { font-size: 1rem; letter-spacing: .1em; }
+.tarjeta--cyber .tarjeta__gancho { font-size: .875rem; }
 .tarjeta--cyber .tarjeta__motivo { background: repeating-linear-gradient(0deg, rgba(57, 255, 143, .05) 0 1px, transparent 1px 3px); }
 
 .tarjeta--neon {

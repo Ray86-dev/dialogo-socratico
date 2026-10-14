@@ -1,6 +1,6 @@
 # El arte de la mayéutica: ironía y arte de preguntar
 
-Documento de base del proyecto. Resume qué es el método socrático y cómo se ha traducido en las instrucciones que sigue el personaje de Sócrates en la aplicación (`lib/prompts.js`).
+Documento de base del proyecto. Resume qué es el método socrático y cómo se ha traducido en las instrucciones que sigue el personaje de Sócrates en la aplicación (`supabase/functions/_shared/prompts.js`).
 
 ## 1. Qué es la mayéutica
 

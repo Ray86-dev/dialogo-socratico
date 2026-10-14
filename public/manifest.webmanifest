@@ -3,9 +3,9 @@
   "short_name": "Sócrates",
   "description": "Dialoga con Sócrates y practica el arte de la mayéutica.",
   "lang": "es",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#15120E",
   "theme_color": "#15120E",
-  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
 }
