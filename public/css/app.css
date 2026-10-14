@@ -45,7 +45,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
   font-family: var(--font-display); font-weight: 700; font-size: clamp(2.75rem, 13vw, 4.25rem);
   line-height: 1; letter-spacing: .02em; margin: 0; color: var(--ink);
 }
-.portada__sub { font-style: italic; font-size: 1.25rem; color: var(--ink-soft); margin: .75rem 0 1.25rem; }
+.portada__sub { font-style: italic; font-size: 1.4375rem; color: var(--ink-soft); margin: .75rem 0 1.25rem; }
 .greca { height: 14px; margin: 0 auto 1.5rem; width: min(100%, 18rem); background: var(--greca) repeat-x center / auto 100%; opacity: .9; }
 .portada__cita { margin: 0 0 2rem; }
 .portada__cita p { margin: 0; font-size: 1.125rem; font-style: italic; }
@@ -54,12 +54,12 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .portada__curso { margin: 1rem 0 0; font-size: .875rem; color: var(--accent); }
 
 .formulario { display: grid; gap: .5rem; text-align: left; }
-.formulario__label { font-family: var(--font-display); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.formulario__label { font-family: var(--font-display); font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
 .formulario input, .dialogo textarea {
   width: 100%; font-size: max(16px, 1rem); padding: .8rem 1rem; border-radius: var(--r-sm);
   border: 1px solid var(--line-strong); background: var(--input-bg); color: var(--ink);
 }
-.formulario input { font-size: 1.25rem; }
+.formulario input { font-size: 1.4375rem; }
 .formulario input::placeholder, textarea::placeholder { color: var(--ink-soft); opacity: .8; }
 .formulario__ayuda { margin: 0; font-size: .875rem; color: var(--ink-soft); }
 .formulario__error { margin: 0; font-size: .875rem; color: var(--error); }
@@ -80,7 +80,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 
 /* ---------- Elección de pregunta ---------- */
 .temas__cabecera { max-width: 34rem; margin: 0 auto 1.25rem; text-align: center; }
-.temas__saludo { margin: 0 0 .25rem; font-size: 1.25rem; font-style: italic; color: var(--accent); }
+.temas__saludo { margin: 0 0 .25rem; font-size: 1.4375rem; font-style: italic; color: var(--accent); }
 .temas__titulo { font-family: var(--font-display); font-size: clamp(1.35rem, 5.5vw, 1.75rem); line-height: 1.2; margin: 0 0 .5rem; font-weight: 500; }
 .temas { list-style: none; margin: 0 auto; padding: 0; max-width: 34rem; display: grid; gap: .875rem; }
 .temas > li { animation: subir .6s cubic-bezier(.2, .7, .2, 1) both; }
@@ -101,9 +101,9 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .tarjeta__etiqueta { font-family: var(--t-font-display); font-size: .6875rem; letter-spacing: .16em; text-transform: uppercase; color: var(--t-accent); }
 .tarjeta__pregunta { font-family: var(--t-font-display); font-size: 1.3rem; line-height: 1.2; font-weight: 600; }
 .tarjeta__escena { font-size: .875rem; color: var(--t-soft); }
-.tarjeta__gancho { font-size: 1rem; font-style: var(--t-cursiva, italic); color: var(--t-ink); opacity: .9; margin-top: .25rem; }
+.tarjeta__gancho { font-size: 1.125rem; font-style: var(--t-cursiva, italic); color: var(--t-ink); opacity: .9; margin-top: .25rem; }
 .tarjeta__progreso {
-  justify-self: start; margin-top: .5rem; font-size: .75rem; font-weight: 600; letter-spacing: .04em;
+  justify-self: start; margin-top: .5rem; font-size: .6875rem; font-weight: 600; letter-spacing: .04em;
   padding: .2rem .6rem; border-radius: 999px; background: var(--t-accent); color: var(--t-accent-ink);
 }
 .tarjeta__motivo { position: absolute !important; inset: 0; z-index: 0 !important; pointer-events: none; }
@@ -121,7 +121,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
   color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .chat__pregunta {
-  margin: 0; font-family: var(--font-display); font-size: var(--titulo-chat, 1rem); line-height: 1.2; font-weight: 600;
+  margin: 0; font-family: var(--font-display); font-size: var(--titulo-chat, 1.125rem); line-height: 1.2; font-weight: 600;
   display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .icono {
@@ -148,7 +148,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .fases li.hecha::before { background: var(--accent); }
 .fases li.actual { color: var(--ink); font-weight: 600; }
 .fases li.actual::before { height: 6px; margin-top: -1px; margin-bottom: calc(.3rem - 1px); }
-.leyenda { margin: 0; padding: 0 .75rem .5rem; font-size: .75rem; text-align: center; color: var(--ink-soft); }
+.leyenda { margin: 0; padding: 0 .75rem .5rem; font-size: .6875rem; text-align: center; color: var(--ink-soft); }
 .leyenda .mk-may { background: var(--may-bg); padding: 0 .25rem; }
 .leyenda .mk-iro { background: var(--iro-bg); text-decoration: underline 2px var(--iro-line); text-underline-offset: 3px; padding: 0 .25rem; }
 
@@ -164,7 +164,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
   margin: 0 .25rem .3rem; font-family: var(--font-deco); font-size: .6875rem; letter-spacing: .14em;
   text-transform: uppercase; color: var(--accent);
 }
-.msg__alias { text-transform: none; letter-spacing: .02em; color: var(--ink-soft); font-family: var(--font-body); font-size: .75rem; }
+.msg__alias { text-transform: none; letter-spacing: .02em; color: var(--ink-soft); font-family: var(--font-body); font-size: .6875rem; }
 .msg--alumno .msg__quien { text-align: right; color: var(--accent-2); }
 .msg__texto {
   margin: 0; padding: .75rem .95rem; border-radius: var(--r-bubble); white-space: pre-wrap; overflow-wrap: anywhere;
@@ -175,7 +175,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .msg__logros { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .3rem; margin-top: .4rem; }
 .chip-logro {
   display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .55rem .15rem .35rem; border-radius: 999px;
-  background: var(--chip-bg); color: var(--chip-ink); font-size: .75rem; font-weight: 600;
+  background: var(--chip-bg); color: var(--chip-ink); font-size: .6875rem; font-weight: 600;
   animation: pop .45s cubic-bezier(.25, 1, .5, 1) both;
 }
 .chip-logro svg { width: 15px; height: 15px; }
@@ -191,7 +191,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
   color: var(--accent); animation: entrar .6s ease both;
 }
 .hito::before, .hito::after { content: ""; height: 1px; background: var(--line-strong); }
-.hito__texto { text-align: center; font-family: var(--font-deco); font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; }
+.hito__texto { text-align: center; font-family: var(--font-deco); font-size: .6875rem; letter-spacing: .16em; text-transform: uppercase; }
 .hito__lema { display: block; margin-top: .2rem; font-family: var(--font-body); font-size: .875rem; letter-spacing: 0; text-transform: none; color: var(--ink-soft); max-width: 16rem; }
 .hito.nuevo .hito__texto { animation: latido 1.2s ease 2; }
 
@@ -224,7 +224,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .pista:nth-child(2) { animation-delay: .07s; }
 .pista:nth-child(3) { animation-delay: .14s; }
 .pista__tipo { font-size: .6875rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
-.pista__texto { font-size: 1rem; }
+.pista__texto { font-size: 1.125rem; }
 .pista--cargando { height: 3.2rem; background: linear-gradient(90deg, var(--chip-bg), var(--line), var(--chip-bg)); background-size: 200% 100%; animation: brillo-carga 1.2s linear infinite; border-color: transparent; }
 
 /* Composer */
@@ -260,14 +260,14 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 }
 .dialogo::backdrop { background: rgba(0, 0, 0, .55); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
 .dialogo[open] { animation: subir .3s ease both; }
-.dialogo h2 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 .5rem; font-weight: 600; }
-.dialogo p { margin: 0 0 .9rem; font-size: 1rem; }
+.dialogo h2 { font-family: var(--font-display); font-size: 1.4375rem; margin: 0 0 .5rem; font-weight: 600; }
+.dialogo p { margin: 0 0 .9rem; font-size: 1.125rem; }
 .dialogo--peq { width: min(22rem, calc(100% - 2rem)); }
 .dialogo__cabecera { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; }
 .dialogo__acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; margin-top: 1rem; }
 .dialogo__acciones .boton { flex: 1 1 auto; }
 .dialogo__estado { min-height: 1.4em; font-size: .875rem; color: var(--accent); }
-.dialogo__puntos { font-size: 1rem !important; }
+.dialogo__puntos { font-size: 1.125rem !important; }
 .dialogo__puntos strong { font-family: var(--font-display); font-size: 1.6rem; color: var(--accent); margin-right: .2rem; }
 .dialogo textarea { margin: .4rem 0 .8rem; font-family: var(--font-body); resize: vertical; }
 .opcional { text-transform: none; letter-spacing: 0; color: var(--ink-soft); }
@@ -278,7 +278,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 .logro { display: grid; grid-template-columns: 2.25rem 1fr auto; gap: .65rem; align-items: center; padding: .5rem .6rem; border-radius: var(--r-sm); border: 1px solid var(--line); }
 .logro__icono { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; border: 1px dashed var(--line-strong); color: var(--ink-soft); }
 .logro__icono svg { width: 20px; height: 20px; }
-.logro__nombre { display: block; font-weight: 600; font-size: 1rem; }
+.logro__nombre { display: block; font-weight: 600; font-size: 1.125rem; }
 .logro__desc { display: block; font-size: .875rem; color: var(--ink-soft); line-height: 1.3; }
 .logro__veces { font-size: .875rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
 .logro.ganado { border-color: var(--line-strong); background: var(--chip-bg); }
@@ -296,7 +296,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round
 }
 .aviso svg { width: 24px; height: 24px; color: var(--accent); }
 .aviso__titulo { display: block; font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
-.aviso__nombre { display: block; font-weight: 600; font-size: 1rem; }
+.aviso__nombre { display: block; font-weight: 600; font-size: 1.125rem; }
 .aviso__puntos { font-weight: 700; color: var(--accent); }
 
 /* ---------- Animaciones ---------- */
