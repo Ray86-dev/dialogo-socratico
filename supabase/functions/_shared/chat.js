@@ -37,6 +37,9 @@ function validar(body) {
     .map((m) => ({
       rol: m.rol,
       texto: m.texto.slice(0, m.rol === 'alumno' ? MAX_CHARS_ALUMNO : MAX_CHARS_SOCRATES).trim(),
+      // Metadatos de turnos anteriores: se devuelven al modelo para que mantenga el formato.
+      fase: Number.isInteger(m.fase) && m.fase >= 1 && m.fase <= 4 ? m.fase : undefined,
+      logros: Array.isArray(m.logros) ? m.logros.filter((l) => LOGROS.includes(l)) : [],
     }))
     .filter((m) => m.texto.length > 0);
   if (limpios.length === 0) throw new ErrorCliente(400, 'No hay mensajes válidos.');
@@ -100,21 +103,27 @@ function limpiarRespuesta(texto) {
 
 const salirseDelPapel = (texto) => FUERA_DE_PAPEL.some((re) => re.test(texto));
 
-// Historial en formato de la API. Los turnos de Sócrates se envían como el json que
-// él mismo produce, para que el modelo mantenga el formato de salida.
+// Historial en formato de la API. Los turnos de Sócrates se envían como el json completo
+// que él mismo produce (respuesta, fase y logros del mensaje anterior del alumno): si
+// faltan campos, el modelo los imita y deja de informar de fases y logros.
 function historial(mensajes) {
   // Une turnos consecutivos del mismo rol (p. ej., tras un envío fallido).
   const turnos = [];
   for (const m of mensajes) {
     const previo = turnos.at(-1);
-    if (previo && previo.rol === m.rol) previo.texto += `\n${m.texto}`;
-    else turnos.push({ ...m });
+    if (previo && previo.rol === m.rol) {
+      previo.texto += `\n${m.texto}`;
+      previo.logros = [...previo.logros, ...m.logros];
+      previo.fase = Math.max(previo.fase || 0, m.fase || 0) || undefined;
+    } else turnos.push({ ...m });
   }
-  const api = turnos.map((m) =>
-    m.rol === 'alumno'
-      ? { role: 'user', content: m.texto }
-      : { role: 'assistant', content: JSON.stringify({ respuesta: m.texto }) },
-  );
+  let fase = 1;
+  const api = turnos.map((m, i) => {
+    if (m.rol === 'alumno') return { role: 'user', content: m.texto };
+    fase = Math.max(fase, m.fase || 1);
+    const logros = turnos[i - 1]?.rol === 'alumno' ? [...new Set(turnos[i - 1].logros)] : [];
+    return { role: 'assistant', content: JSON.stringify({ respuesta: m.texto, fase, logros }) };
+  });
   // El saludo inicial es de Sócrates; la API espera que el primer turno sea del usuario.
   if (api[0]?.role === 'assistant') api.unshift({ role: 'user', content: '(Se acerca a Sócrates.)' });
   return api;
@@ -140,7 +149,8 @@ async function turnoDialogo(env, tema, mensajes) {
       ];
       continue;
     }
-    const fase = Math.min(4, Math.max(1, Number.parseInt(json.fase, 10) || 1));
+    const n = Number.parseInt(json.fase, 10);
+    const fase = n >= 1 && n <= 4 ? n : null; // sin fase: la app conserva la anterior
     const logros = Array.isArray(json.logros)
       ? [...new Set(json.logros.filter((l) => LOGROS.includes(l)))]
       : [];

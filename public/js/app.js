@@ -306,7 +306,7 @@ async function pedir(temaId, modo, mensajes) {
     res = await fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...CABECERAS },
-      body: JSON.stringify({ modo, tema: temaId, mensajes: mensajes.map(({ rol, texto }) => ({ rol, texto })) }),
+      body: JSON.stringify({ modo, tema: temaId, mensajes: mensajes.map(({ rol, texto, fase, logros }) => ({ rol, texto, fase, logros })) }),
       signal: AbortSignal.timeout ? AbortSignal.timeout(60_000) : undefined,
     });
   } catch {
